@@ -1,24 +1,25 @@
-package Basics;
+import java.security.SecureRandom;
 
-import java.util.Random;
+public class PasswordGenerator {
+    private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
+    private static final String DIGITS = "0123456789";
+    private static final String SPECIAL = "!@#$%^&*()-_=+<>?";
+    private static final String ALL = UPPER + LOWER + DIGITS + SPECIAL;
+    private static final SecureRandom RANDOM = new SecureRandom();
 
-public class PassGen 
-{
-	public static void main(String args[])
-	{
-		String upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String lower="abcdefghijklmnopqrstuvwxyz";
-		String num="023456789";
-		String specialChars="<>,.?/}]{[+_-)(*&^%$#@!=";
-		String combination=upper+lower+specialChars+num;
-		int len=8;
-		char[] password=new char[len];
-		Random r = new Random();
-		for(int i=0;i<len;i++)
-		{
-			password[i]=combination.charAt(r.nextInt(combination.length()));
-		}
-		System.out.println("Generated password is: "+new String(password));
-	}
+    public static String generatePassword(int length) {
+        if (length < 1) throw new IllegalArgumentException("Length must be greater than 0");
+        
+        StringBuilder password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            password.append(ALL.charAt(RANDOM.nextInt(ALL.length())));
+        }
+        return password.toString();
+    }
 
+    public static void main(String[] args) {
+        String password = generatePassword(12);
+        System.out.println("Generated Password: " + password);
+    }
 }
